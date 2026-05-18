@@ -134,9 +134,7 @@ Design a modular inventory system.
 - Consumables
 - Weapons
 - Inventory UI
-- DataTables
 - Save/Load support
-- Drag & Drop UI
 
 ---
 
