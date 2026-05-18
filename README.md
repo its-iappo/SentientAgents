@@ -96,7 +96,7 @@ Implement a modular `HealthComponent` that can be attached to:
 - Death events
 - Event broadcasting
 - UI updates
-- Optional armor/resistance system
+- Armor/resistance system
 
 ### Architecture Requirement
 
@@ -120,20 +120,13 @@ Create a flexible interaction framework.
 - Loot containers
 - Talk to NPCs
 
-### Requirements
-
-- Use Interfaces for interactable actors
-- Reusable interaction traces
-- Context-sensitive prompts
-- Multiplayer-safe architecture preferred
-
 ---
 
 ## Inventory System
 
 Design a modular inventory system.
 
-### Suggested Features
+### Features
 
 - Add/remove items
 - Stackable items
@@ -141,9 +134,6 @@ Design a modular inventory system.
 - Consumables
 - Weapons
 - Inventory UI
-
-### Bonus
-
 - DataTables
 - Save/Load support
 - Drag & Drop UI
@@ -414,6 +404,8 @@ feature/interaction-framework
 - Inventory system
 - Animation integration
 - Team collaboration evidence
+- Save system
+- Faction relationships
 
 ---
 
@@ -424,12 +416,9 @@ Optional advanced systems:
 - Squad AI
 - Dynamic cover system
 - EQS
-- Save system
-- Multiplayer support
 - Procedural patrols
 - Advanced combat AI
 - Dialogue system
-- Faction relationships
 
 ---
 
