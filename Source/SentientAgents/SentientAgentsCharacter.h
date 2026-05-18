@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "SentientAgentsCharacter.generated.h"
 
+class UCharacterStats;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -30,45 +31,15 @@ class ASentientAgentsCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
-	
-protected:
-
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* JumpAction;
-
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MoveAction;
-
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* LookAction;
-
-	/** Mouse Look Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MouseLookAction;
 
 public:
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Stats")
+	TObjectPtr<UCharacterStats> CharacterStats;
+	
 	/** Constructor */
 	ASentientAgentsCharacter();	
-
-protected:
-
-	/** Initialize input action bindings */
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-protected:
-
-	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
-
-public:
-
+	
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoMove(float Right, float Forward);
@@ -84,7 +55,25 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void DoCrouch();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Run();
 
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Interact();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Use();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void OpenInventory();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Attack();
+	
 public:
 
 	/** Returns CameraBoom subobject **/
