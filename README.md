@@ -40,7 +40,7 @@ Agents must react dynamically using Unreal's AI Perception framework.
 
 - Sight
 - Hearing
-- Damage (optional bonus)
+- Damage
 
 ### Expected Behaviors
 
@@ -217,7 +217,6 @@ Responsible for:
 - State Machines
 - Montages
 - Animation integration
-- IK systems (optional)
 
 ---
 
