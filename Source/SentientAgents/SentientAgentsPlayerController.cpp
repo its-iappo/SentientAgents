@@ -14,7 +14,7 @@ void ASentientAgentsPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	// only spawn touch controls on local player controllers
-	if (SVirtualJoystick::ShouldDisplayTouchInterface() && IsLocalPlayerController())
+	if (ShouldUseTouchControls() && IsLocalPlayerController())
 	{
 		// spawn the mobile controls widget
 		MobileControlsWidget = CreateWidget<UUserWidget>(this, MobileControlsWidgetClass);
@@ -49,7 +49,7 @@ void ASentientAgentsPlayerController::SetupInputComponent()
 			}
 
 			// only add these IMCs if we're not using mobile touch input
-			if (!SVirtualJoystick::ShouldDisplayTouchInterface())
+			if (!ShouldUseTouchControls())
 			{
 				for (UInputMappingContext* CurrentContext : MobileExcludedMappingContexts)
 				{
@@ -58,4 +58,10 @@ void ASentientAgentsPlayerController::SetupInputComponent()
 			}
 		}
 	}
+}
+
+bool ASentientAgentsPlayerController::ShouldUseTouchControls() const
+{
+	// are we on a mobile platform? Should we force touch?
+	return SVirtualJoystick::ShouldDisplayTouchInterface() || bForceTouchControls;
 }
