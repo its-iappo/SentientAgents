@@ -87,3 +87,28 @@ void ASentientAgentsCharacter::DoJumpEnd()
 	// signal the character to stop jumping
 	StopJumping();
 }
+
+void ASentientAgentsCharacter::DoCrouch()
+{
+	
+}
+
+void ASentientAgentsCharacter::Run()
+{
+}
+
+void ASentientAgentsCharacter::Interact()
+{
+}
+
+void ASentientAgentsCharacter::Use()
+{
+}
+
+void ASentientAgentsCharacter::OpenInventory()
+{
+}
+
+void ASentientAgentsCharacter::Attack()
+{
+}

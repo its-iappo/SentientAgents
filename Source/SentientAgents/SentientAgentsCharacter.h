@@ -55,7 +55,24 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void DoCrouch();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Run();
 
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Interact();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Use();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void OpenInventory();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Attack();
 	
 public:
 
