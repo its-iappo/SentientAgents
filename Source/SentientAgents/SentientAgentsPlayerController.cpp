@@ -43,7 +43,7 @@ void ASentientAgentsPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this,
 		                                   &ASentientAgentsPlayerController::Interact);
 
-		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Triggered, this,
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this,
 		                                   &ASentientAgentsPlayerController::Crouch);
 
 		EnhancedInputComponent->BindAction(RunAction, ETriggerEvent::Triggered, this,
@@ -124,7 +124,7 @@ void ASentientAgentsPlayerController::Crouch()
 {
 	if (ControlledCharacter)
 	{
-		ControlledCharacter->DoCrouch();
+		ControlledCharacter->ToggleCrouch();
 	}
 }
 
@@ -132,7 +132,7 @@ void ASentientAgentsPlayerController::Run()
 {
 	if (ControlledCharacter)
 	{
-		ControlledCharacter->Run();
+		ControlledCharacter->ToggleRun();
 	}
 }
 
