@@ -36,14 +36,15 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 // METTERE DANNO A SHIELD
+
 void UHealthComponent::TakeDamage(float damage)
 {
-	if (CurrentHealth <= 0)
+	if (CurrentHealth <= 0.0f)
 	{
-		//CharacterDie();
+		IsDeath.Broadcast();
 		
 	}
-	else if(CurrentHealth > 0){
+	else if(CurrentHealth > 0.0f){
 		CurrentHealth -= damage;
 		
 	}

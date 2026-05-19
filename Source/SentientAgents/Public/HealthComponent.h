@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FonDeathDelegate);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SENTIENTAGENTS_API UHealthComponent : public UActorComponent
@@ -15,19 +16,21 @@ class SENTIENTAGENTS_API UHealthComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UHealthComponent();
+	
+	UPROPERTY(BlueprintAssignable, Category = "Character State")
+	FonDeathDelegate IsDeath;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
 	float MaxHealth = 100.0f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
 	float CurrentHealth = 100.0f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character State")
-	bool bIsDead = false;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
+	float MaxShield = 100.0f;
 	
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
-    	float MaxShield = 100.0f;
-    	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
-    	float CurrentShield = 100.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
+	float CurrentShield = 100.0f;
 	
 protected:
 	// Called when the game starts

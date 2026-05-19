@@ -28,7 +28,15 @@ public:
 	AHealthTestCharacter(); 
 	
 	UFUNCTION(BlueprintCallable)
-	virtual float TakeDamage(float DamageAmount,FDamageEvent const& DamageEvent,AController* EventInstigator,AActor* DamageCauser) override;	
+	virtual float TakeDamage(float DamageAmount,FDamageEvent const& DamageEvent,
+		AController* EventInstigator,AActor* DamageCauser) override;
+	
 	void HealHealth(float healHealth);
-	void CharacterDie();
+	
+protected:
+	UFUNCTION()
+	void HandleDeath();
+	
+	
+	
 };

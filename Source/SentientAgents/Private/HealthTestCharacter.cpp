@@ -9,26 +9,37 @@
 
 
 
+
+
 AHealthTestCharacter::AHealthTestCharacter()
 {
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 }
 
-float AHealthTestCharacter::TakeDamage(float DamageAmount,FDamageEvent const& DamageEvent,AController* EventInstigator,AActor* DamageCauser
-)
+float AHealthTestCharacter::TakeDamage(float DamageAmount,FDamageEvent const& DamageEvent,
+	AController* EventInstigator,AActor* DamageCauser)
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
 	if (HealthComponent)
 	{
 		HealthComponent->TakeDamage(DamageAmount);
+		HealthComponent->IsDeath.AddDynamic( this , &AHealthTestCharacter::HandleDeath );
 	}
+	
 
 	return DamageAmount;
 }
-
-void AHealthTestCharacter::CharacterDie()
+void AHealthTestCharacter::HandleDeath()
 {
-	GetMesh()->SetSimulatePhysics(true);
-	GetCharacterMovement()->DisableMovement();	
+	UE_LOG(LogTemp, Warning, TEXT("you are died"));
+	
+	GetCharacterMovement()->DisableMovement();
 }
+
+
+
+
+
+
+
