@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemDataAsset.h"
 #include "UObject/Class.h"
 #include "ItemStruct.generated.h"
 
@@ -17,15 +18,7 @@ class SENTIENTAGENTS_API UItemStruct : public UStruct
 	
 public:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	int ID = 0;
+	UItemDataAsset* ItemDataAsset;
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	int Quantity = 1;
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	FString Name = "";
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	UTexture2D* Icon;
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	bool bIsStackable = false;
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	float Damage = 0;
 };

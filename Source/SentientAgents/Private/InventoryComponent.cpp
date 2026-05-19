@@ -36,11 +36,11 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UInventoryComponent::AddItemToInventory(UItemStruct* Item)
 {
-	if (Item->bIsStackable) 
+	if (Item->ItemDataAsset->bIsStackable) 
 	{
 		for (const auto Element : Inventory)
 		{
-			if (Element->ID == Item->ID) //if it's the same item it stacks
+			if (Element->ItemDataAsset->ID == Item->ItemDataAsset->ID) //if it's the same item it stacks
 			{
 				Element->Quantity += Item->Quantity;
 				OnStackChange.Broadcast(Element);
@@ -85,7 +85,7 @@ void UInventoryComponent::SortInventory(const ESortMode SortMode, const bool Asc
 			{
 				if (Ascending)
 				{
-					if (Inventory[i]->ID > Inventory[j]->ID)
+					if (Inventory[i]->ItemDataAsset->ID > Inventory[j]->ItemDataAsset->ID)
 					{
 						UItemStruct* temp = Inventory[i];
 						Inventory[i] = Inventory[j];
@@ -94,7 +94,7 @@ void UInventoryComponent::SortInventory(const ESortMode SortMode, const bool Asc
 				}
 				else
 				{
-					if (Inventory[i]->ID < Inventory[j]->ID)
+					if (Inventory[i]->ItemDataAsset->ID < Inventory[j]->ItemDataAsset->ID)
 					{
 						UItemStruct* temp = Inventory[i];
 						Inventory[i] = Inventory[j];
@@ -137,7 +137,7 @@ void UInventoryComponent::SortInventory(const ESortMode SortMode, const bool Asc
 			{
 				if (Ascending)
 				{
-					if (Inventory[i]->Name > Inventory[j]->Name)
+					if (Inventory[i]->ItemDataAsset->Name > Inventory[j]->ItemDataAsset->Name)
 					{
 						UItemStruct* temp = Inventory[i];
 						Inventory[i] = Inventory[j];
@@ -146,7 +146,7 @@ void UInventoryComponent::SortInventory(const ESortMode SortMode, const bool Asc
 				}
 				else
 				{
-					if (Inventory[i]->Name < Inventory[j]->Name)
+					if (Inventory[i]->ItemDataAsset->Name < Inventory[j]->ItemDataAsset->Name)
 					{
 						UItemStruct* temp = Inventory[i];
 						Inventory[i] = Inventory[j];
@@ -163,7 +163,7 @@ void UInventoryComponent::SplitStack(const int Index,const int Size)
 {
 	if (Index < Inventory.Num())
 	{
-		if (Inventory[Index]->bIsStackable)
+		if (Inventory[Index]->ItemDataAsset->bIsStackable)
 		{
 			if (Size < Inventory[Index]->Quantity)
 			{

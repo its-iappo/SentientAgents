@@ -3,21 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Class.h"
-#include "ItemData.generated.h"
+#include "Engine/DataAsset.h"
+#include "ItemDataAsset.generated.h"
 
 /**
  * 
  */
-USTRUCT()
-struct SENTIENTAGENTS_API FItemData : public FTableRowBase
+UCLASS()
+class SENTIENTAGENTS_API UItemDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
-	
+public:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	int ID = 0;
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	int Quantity = 1;
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	FString Name = "";
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
@@ -27,6 +25,3 @@ struct SENTIENTAGENTS_API FItemData : public FTableRowBase
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	float Damage = 0;
 };
-
-
-
