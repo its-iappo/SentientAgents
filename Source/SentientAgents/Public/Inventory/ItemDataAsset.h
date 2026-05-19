@@ -9,6 +9,17 @@
 /**
  * 
  */
+UENUM()
+enum class EEquipmentSlot : uint8
+{
+	None UMETA(DisplayName="None"),
+	Weapon   UMETA(DisplayName = "Weapon"),
+	Head   UMETA(DisplayName = "Head"),
+	Chest   UMETA(DisplayName = "Chest"),
+	Leggings   UMETA(DisplayName = "Leggings"),
+	Boots UMETA(DisplayName = "Boots")
+};
+
 UCLASS()
 class SENTIENTAGENTS_API UItemDataAsset : public UDataAsset
 {
@@ -22,4 +33,8 @@ public:
 	bool bIsStackable = false;
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	float Damage = 0;
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	float Defense = 0;
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	EEquipmentSlot Slot = EEquipmentSlot::None;
 };

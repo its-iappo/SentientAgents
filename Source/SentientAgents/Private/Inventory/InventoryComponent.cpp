@@ -100,7 +100,7 @@ void UInventoryComponent::SortInventory(const ESortMode SortMode, const bool Asc
 	//man this code could be a lot better ¯\_(ツ)_/¯
 	switch (SortMode)
 	{
-	case ESortMode::QUANTITY:
+	case ESortMode::Quantity:
 		for (int i = 0; i < Inventory.Num(); i++) //i know it's not the most efficient algorithm
 		{
 			for (int j = i+1; j < Inventory.Num(); j++)
@@ -126,7 +126,7 @@ void UInventoryComponent::SortInventory(const ESortMode SortMode, const bool Asc
 			}
 		}
 		break;
-	case ESortMode::NAME:
+	case ESortMode::Name:
 		for (int i = 0; i < Inventory.Num(); i++)
 		{
 			for (int j = i+1; j < Inventory.Num(); j++)
@@ -186,6 +186,7 @@ void UInventoryComponent::ReduceAmount(UItemDataAsset* Item, int Quantity)//redu
 				if (Inventory[i].Quantity > Quantity)
 				{
 					Inventory[i].Quantity -= Quantity;
+					OnStackChange.Broadcast(Inventory[i]);
 				}
 				else
 				{

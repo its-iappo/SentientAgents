@@ -12,8 +12,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventorySizeChangeSignature,FIte
 UENUM()
 enum class ESortMode : uint8
 {
-	QUANTITY   UMETA(DisplayName = "By Quantity"),
-	NAME      UMETA(DisplayName = "By Name")	
+	Quantity   UMETA(DisplayName = "By Quantity"),
+	Name      UMETA(DisplayName = "By Name")	
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -27,6 +27,9 @@ class SENTIENTAGENTS_API UInventoryComponent : public UActorComponent
 	FOnInventorySizeChangeSignature OnSizeChange; //when the size of the array changes
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	FOnInventorySizeChangeSignature OnStackChange; //when one of the items in the inventory has quantity increase or decrease
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	TMap<EEquipmentSlot,FItemStruct> EquipmentSlots;
+	
 
 	
 public:	
