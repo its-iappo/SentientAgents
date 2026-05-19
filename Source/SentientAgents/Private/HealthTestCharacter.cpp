@@ -30,6 +30,15 @@ float AHealthTestCharacter::TakeDamage(float DamageAmount,FDamageEvent const& Da
 
 	return DamageAmount;
 }
+
+float AHealthTestCharacter::HealHealth(float healHealth)
+{
+	if (HealthComponent)
+	{
+		HealthComponent->HealHealth(healHealth);
+	}
+	return healHealth;
+}
 void AHealthTestCharacter::HandleDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("you are died"));

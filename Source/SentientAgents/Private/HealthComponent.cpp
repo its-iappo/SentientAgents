@@ -41,22 +41,24 @@ void UHealthComponent::TakeDamage(float damage)
 {
 	if (CurrentHealth <= 0.0f)
 	{
+		
 		IsDeath.Broadcast();
 		
 	}
 	else if(CurrentHealth > 0.0f){
 		CurrentHealth -= damage;
+		CurrentHealth = FMath::Clamp(CurrentHealth - damage,0.0f,MaxHealth);
 		
 	}
 };
 
 void UHealthComponent::HealHealth(float healHealth)
 {
-	if (CurrentHealth > 0)
-	{
-		CurrentHealth += healHealth;
-	}
+	CurrentHealth = FMath::Clamp(CurrentHealth + healHealth, 0.0f, 100.0f);
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("CurrentHealth: %f"), CurrentHealth));
 }
+
 
 void UHealthComponent::HealShield(float healShield)
 {

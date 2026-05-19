@@ -31,7 +31,8 @@ public:
 	virtual float TakeDamage(float DamageAmount,FDamageEvent const& DamageEvent,
 		AController* EventInstigator,AActor* DamageCauser) override;
 	
-	void HealHealth(float healHealth);
+	UFUNCTION(BlueprintCallable)
+	float HealHealth(float healHealth);
 	
 protected:
 	UFUNCTION()

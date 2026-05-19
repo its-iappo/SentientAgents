@@ -7,6 +7,8 @@
 #include "HealthComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FonDeathDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
+
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SENTIENTAGENTS_API UHealthComponent : public UActorComponent
@@ -19,6 +21,9 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, Category = "Character State")
 	FonDeathDelegate IsDeath;
+	
+	UPROPERTY(BlueprintAssignable, Category = "Health")
+	FOnHealthChanged OnHealthChanged;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
 	float MaxHealth = 100.0f;
@@ -37,12 +42,14 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 	
 	void TakeDamage(float damage);
 	
+	UFUNCTION(BlueprintCallable)
 	void HealHealth(float healHealth);
 	void HealShield(float healShield);
 };
