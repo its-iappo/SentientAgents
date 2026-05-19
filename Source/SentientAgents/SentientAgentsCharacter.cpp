@@ -1,12 +1,39 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SentientAgentsCharacter.h"
+
+#include "CharacterStats.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
+
+void ASentientAgentsCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	if (CharacterStats)
+	{
+		GetCharacterMovement()->JumpZVelocity = CharacterStats->JumpVelocity;
+		GetCharacterMovement()->AirControl = CharacterStats->AirControl;
+		GetCharacterMovement()->MaxWalkSpeed = CharacterStats->MaxWalkSpeed;
+		GetCharacterMovement()->MinAnalogWalkSpeed = CharacterStats->MinAnalogWalkSpeed;
+		GetCharacterMovement()->MaxWalkSpeedCrouched = CharacterStats->CrouchWalkSpeed;
+	}
+}
+
+void ASentientAgentsCharacter::UpdateMovementSpeed()
+{
+	if (bIsRunning)
+	{
+		GetCharacterMovement()->MaxWalkSpeed *= CharacterStats->MaxRunSpeedMultiplier;
+		
+		return;
+	}
+	GetCharacterMovement()->MaxWalkSpeed = CharacterStats->MaxWalkSpeed;
+	
+}
 
 ASentientAgentsCharacter::ASentientAgentsCharacter()
 {
@@ -30,17 +57,6 @@ ASentientAgentsCharacter::ASentientAgentsCharacter()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
-
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f;
-	CameraBoom->bUsePawnControlRotation = true;
-
-	// Create a follow camera
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->bUsePawnControlRotation = false;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -86,4 +102,57 @@ void ASentientAgentsCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+void ASentientAgentsCharacter::ToggleRun()
+{
+	bIsRunning = !bIsRunning;
+
+	if (bIsRunning && bIsCrouched)
+	{
+		UnCrouch();
+	}
+	UE_LOG(LogTemp, Display,TEXT("Run"));
+	UpdateMovementSpeed();
+}
+
+void ASentientAgentsCharacter::ToggleCrouch()
+{
+	if (bIsCrouched)
+	{
+		UnCrouch();
+	}
+	else
+	{
+		Crouch();
+
+		if (bIsRunning)
+		{
+			bIsRunning = false;
+		}
+	}
+	UE_LOG(LogTemp, Display,TEXT("Crouch"));
+
+	UpdateMovementSpeed();
+}
+
+
+void ASentientAgentsCharacter::Run()
+{
+}
+
+void ASentientAgentsCharacter::Interact()
+{
+}
+
+void ASentientAgentsCharacter::Use()
+{
+}
+
+void ASentientAgentsCharacter::OpenInventory()
+{
+}
+
+void ASentientAgentsCharacter::Attack()
+{
 }

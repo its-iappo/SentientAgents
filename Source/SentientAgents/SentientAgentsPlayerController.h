@@ -46,9 +46,6 @@ protected:
 	UInputAction* CrouchAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* AttackAction;
-	
-	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* RunAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -56,6 +53,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* UseAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* AttackAction;
 	
 	
 	/** ControlledCharacter **/
@@ -86,4 +86,23 @@ public:
 	
 	UFUNCTION()
 	void Move(const FInputActionValue& Value);
+	
+	UFUNCTION()
+	virtual void Interact();
+	
+	UFUNCTION()
+	virtual void Crouch();
+	
+	UFUNCTION()
+	virtual void Run();
+	
+	UFUNCTION()
+	virtual void OpenInventory();
+	
+	UFUNCTION()
+	virtual void Use();
+	
+	UFUNCTION()
+	virtual void Attack();
+	
 };

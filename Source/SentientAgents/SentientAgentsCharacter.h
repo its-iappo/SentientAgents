@@ -24,16 +24,17 @@ class ASentientAgentsCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom;
 
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FollowCamera;
-
+protected:
+	
+	virtual void BeginPlay() override;
+	
+	void UpdateMovementSpeed();
+	
+	uint8 bIsRunning:1 = false;
+	
 public:
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Stats")
 	TObjectPtr<UCharacterStats> CharacterStats;
 	
@@ -55,14 +56,27 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
-
 	
-public:
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void ToggleRun();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void ToggleCrouch();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Run();
 
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Interact();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Use();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void OpenInventory();
+	
+	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void Attack();
 
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
 
