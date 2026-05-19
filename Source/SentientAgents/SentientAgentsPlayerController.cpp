@@ -46,7 +46,7 @@ void ASentientAgentsPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this,
 		                                   &ASentientAgentsPlayerController::Crouch);
 
-		EnhancedInputComponent->BindAction(RunAction, ETriggerEvent::Triggered, this,
+		EnhancedInputComponent->BindAction(RunAction, ETriggerEvent::Started, this,
 		                                   &ASentientAgentsPlayerController::Run);
 
 		EnhancedInputComponent->BindAction(OpenInventoryAction, ETriggerEvent::Triggered, this,
