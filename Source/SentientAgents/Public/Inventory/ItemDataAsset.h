@@ -15,8 +15,6 @@ class SENTIENTAGENTS_API UItemDataAsset : public UDataAsset
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	int ID = 0;
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	FString Name = "";
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	UTexture2D* Icon;

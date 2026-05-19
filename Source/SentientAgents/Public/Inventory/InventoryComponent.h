@@ -7,12 +7,11 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventorySizeChangeSignature,UItemStruct*,Item);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventorySizeChangeSignature,FItemStruct,Item);
 
 UENUM()
 enum class ESortMode : uint8
 {
-	ID UMETA(DisplayName = "By ID"),
 	QUANTITY   UMETA(DisplayName = "By Quantity"),
 	NAME      UMETA(DisplayName = "By Name")	
 };
@@ -22,8 +21,8 @@ class SENTIENTAGENTS_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
-	TArray<UItemStruct*> Inventory;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	TArray<FItemStruct> Inventory;
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	FOnInventorySizeChangeSignature OnSizeChange; //when the size of the array changes
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
@@ -43,13 +42,17 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-	void AddItemToInventory(UItemStruct* Item);
+	void AddItemToInventory(UItemDataAsset* Item,int Quantity);
 	UFUNCTION(BlueprintCallable)
-	UItemStruct* GetItemFromInventory(const int Index) const;
+	FItemStruct GetItemFromInventory(const int Index) const;
 	UFUNCTION(BlueprintCallable)
-	void RemoveItemFromInventory(const int Index);
+	void RemoveItemFromInventoryByIndex(const int Index);
 	UFUNCTION(BlueprintCallable)
+	void RemoveItemFromInventoryByAsset(const UItemDataAsset* Item);
+	UFUNCTION(BlueprintCallable) //removes an instance of an item in the inventory
 	void SortInventory(const ESortMode SortMode, const bool Ascending);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void SplitStack(const int Index,const int Size); //not implemented yet
+	UFUNCTION(BlueprintCallable)
+	void ReduceAmount(UItemDataAsset* Item,int Quantity);
 };

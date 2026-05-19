@@ -11,14 +11,25 @@
  Quick explanation:
  Any stat that is set to -1 will have no effect and will be hidden 
  */
-UCLASS()
-class SENTIENTAGENTS_API UItemStruct : public UStruct
+USTRUCT(BlueprintType)
+struct SENTIENTAGENTS_API FItemStruct
 {
 	GENERATED_BODY()
-	
+
 public:
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	FItemStruct()
+	{
+		ItemDataAsset = nullptr;
+		Quantity = 0;
+	}
+	
+	FItemStruct(UItemDataAsset* Item, const int Quantity)
+	{
+		ItemDataAsset = Item;
+		this->Quantity = Quantity;
+	}
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	UItemDataAsset* ItemDataAsset;
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	int Quantity = 1;
 };
