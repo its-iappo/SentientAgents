@@ -34,6 +34,8 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	
 }
+
+// METTERE DANNO A SHIELD
 void UHealthComponent::TakeDamage(float damage)
 {
 	if (CurrentHealth <= 0)
@@ -52,6 +54,14 @@ void UHealthComponent::HealHealth(float healHealth)
 	if (CurrentHealth > 0)
 	{
 		CurrentHealth += healHealth;
+	}
+}
+
+void UHealthComponent::HealShield(float healShield)
+{
+	if (CurrentShield > 0)
+	{
+		CurrentShield += healShield;
 	}
 }
 

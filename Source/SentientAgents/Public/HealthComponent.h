@@ -24,6 +24,11 @@ public:
 	bool bIsDead = false;
 	
 	
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
+    	float MaxShield = 100.0f;
+    	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
+    	float CurrentShield = 100.0f;
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -36,4 +41,5 @@ public:
 	void TakeDamage(float damage);
 	
 	void HealHealth(float healHealth);
+	void HealShield(float healShield);
 };
