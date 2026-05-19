@@ -5,6 +5,7 @@
 #include "Inventory/InventoryComponent.h"
 
 #include "IDetailTreeNode.h"
+#include "Components/ListView.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -35,7 +36,7 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
-void UInventoryComponent::AddItemToInventory(UItemDataAsset* Item, int Quantity)
+void UInventoryComponent::AddItemToInventory(UItemDataAsset* Item, const int Quantity)
 {
 	if (Item->bIsStackable)
 	{
@@ -57,11 +58,14 @@ void UInventoryComponent::AddItemToInventory(UItemDataAsset* Item, int Quantity)
 	}
 	else
 	{
-		FItemStruct temp;
-		temp.ItemDataAsset = Item;
-		temp.Quantity = Quantity;
-		OnSizeChange.Broadcast(temp);
-		Inventory.Add(temp);
+		for (int i = 0 ; i < Quantity; i++)
+		{
+			FItemStruct temp;
+			temp.ItemDataAsset = Item;
+			temp.Quantity = Quantity;
+			OnSizeChange.Broadcast(temp);
+			Inventory.Add(temp);
+		}
 	}
 }
 
@@ -169,7 +173,7 @@ void UInventoryComponent::SplitStack(const int Index,const int Size)
 	}
 }
 
-void UInventoryComponent::ReduceAmount(UItemDataAsset* Item, int Quantity)//reduce the quantity in a stackable item
+void UInventoryComponent::ReduceAmount(UItemDataAsset* Item, const int Quantity)//reduce the quantity in a stackable item
 {
 	if (Quantity < 1)
 	{
@@ -179,7 +183,7 @@ void UInventoryComponent::ReduceAmount(UItemDataAsset* Item, int Quantity)//redu
 	if (Item->bIsStackable)
 	{
 		bool Found = false;
-		for (int i = 0 ; i < Inventory.Num() && !Found; i++)
+		for (int i = 0 ; i < Inventory.Num() && !Found; i++) //stops at the first instance of the searched item
 		{
 			if (Inventory[i].ItemDataAsset == Item)
 			{
@@ -198,5 +202,46 @@ void UInventoryComponent::ReduceAmount(UItemDataAsset* Item, int Quantity)//redu
 	else
 	{
 		UE_LOG(LogTemp,Warning,TEXT("Attempted to reduce the quantity of an unstackable item!"));
+	}
+}
+
+void UInventoryComponent::Equip(int Index)
+{
+	if (Index < Inventory.Num())
+	{
+		if (Inventory[Index].ItemDataAsset->Slot!=EEquipmentSlot::None)
+		{
+			if (!EquipmentSlots.Contains(Inventory[Index].ItemDataAsset->Slot))
+			{
+				EquipmentSlots.Add(Inventory[Index].ItemDataAsset->Slot,Inventory[Index]); //adds Key based on ItemDataAsset and value as the whole struct
+				OnItemEquip.Broadcast(Inventory[Index].ItemDataAsset);
+				Inventory.RemoveAt(Index);
+			}
+			else
+			{
+				UE_LOG(LogTemp,Warning,TEXT("Slot is already used!"));
+				OnInvalidAction.Broadcast(EInventoryInvalidActions::SlotAlreadyUsed); //sends out delegate for error message on UI
+			}
+		}
+		else
+		{
+			OnInvalidAction.Broadcast(EInventoryInvalidActions::ItemNotEquippable); //sends out delegate for error message on UI
+		}
+	}
+}
+		
+
+void UInventoryComponent::UnEquip(EEquipmentSlot Slot)
+{
+	if (EquipmentSlots.Contains(Slot))
+	{
+		OnItemUnequip.Broadcast(EquipmentSlots[Slot].ItemDataAsset);
+		FItemStruct temp = EquipmentSlots[Slot];
+		EquipmentSlots.Remove(Slot);
+		Inventory.Add(temp);
+	}
+	else
+	{
+		OnInvalidAction.Broadcast(EInventoryInvalidActions::SlotAlreadyEmpty);
 	}
 }

@@ -7,7 +7,18 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
+UENUM()
+enum class EInventoryInvalidActions : uint8
+{
+	SlotAlreadyUsed   UMETA(DisplayName = "Slot already used"),
+	ItemNotEquippable  UMETA(DisplayName = "Item not equippable"),
+	SlotAlreadyEmpty   UMETA(DisplayName = "Slot already empty"),
+};
+
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventorySizeChangeSignature,FItemStruct,Item);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInvalidAction,EInventoryInvalidActions, Error);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemEquip,UItemDataAsset*, Item);
 
 UENUM()
 enum class ESortMode : uint8
@@ -29,8 +40,12 @@ class SENTIENTAGENTS_API UInventoryComponent : public UActorComponent
 	FOnInventorySizeChangeSignature OnStackChange; //when one of the items in the inventory has quantity increase or decrease
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
 	TMap<EEquipmentSlot,FItemStruct> EquipmentSlots;
-	
-
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	FOnInvalidAction OnInvalidAction;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	FOnItemEquip OnItemEquip; //called when an item gets equipped
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta=(AllowPrivateAccess))
+	FOnItemEquip OnItemUnequip; //called when an item gets unequipped
 	
 public:	
 	// Sets default values for this component's properties
@@ -58,4 +73,8 @@ public:
 	void SplitStack(const int Index,const int Size); //not implemented yet
 	UFUNCTION(BlueprintCallable)
 	void ReduceAmount(UItemDataAsset* Item,int Quantity);
+	UFUNCTION(BlueprintCallable)
+	void Equip(int Index);
+	UFUNCTION(BlueprintCallable)
+	void UnEquip(EEquipmentSlot Slot);
 };
