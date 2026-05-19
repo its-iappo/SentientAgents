@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float HealHealth(float healHealth);
 	
+	UFUNCTION(BlueprintCallable)
+	float HealShield(float healShield);
+	
 protected:
 	UFUNCTION()
 	void HandleDeath();

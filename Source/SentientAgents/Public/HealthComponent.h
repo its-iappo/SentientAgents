@@ -8,6 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FonDeathDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShieldChanged, float, NewShield);
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -22,8 +23,11 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Character State")
 	FonDeathDelegate IsDeath;
 	
-	UPROPERTY(BlueprintAssignable, Category = "Health")
+	UPROPERTY(BlueprintAssignable, Category = "Health Component")
 	FOnHealthChanged OnHealthChanged;
+	
+	UPROPERTY(BlueprintAssignable, Category = "Health Component")
+	FOnShieldChanged OnShieldChanged;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
 	float MaxHealth = 100.0f;
@@ -35,7 +39,7 @@ public:
 	float MaxShield = 100.0f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health Component")
-	float CurrentShield = 100.0f;
+	float CurrentShield = 80.0f;
 	
 protected:
 	// Called when the game starts
@@ -51,5 +55,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void HealHealth(float healHealth);
+	
+	UFUNCTION(BlueprintCallable)
 	void HealShield(float healShield);
 };

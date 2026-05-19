@@ -39,6 +39,14 @@ float AHealthTestCharacter::HealHealth(float healHealth)
 	}
 	return healHealth;
 }
+float AHealthTestCharacter::HealShield(float healShield)
+{
+	if (HealthComponent)
+	{
+		HealthComponent->HealShield(healShield);
+	}
+	return healShield;
+}
 void AHealthTestCharacter::HandleDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("you are died"));

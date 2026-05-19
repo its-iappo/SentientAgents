@@ -47,6 +47,7 @@ void UHealthComponent::TakeDamage(float damage)
 	}
 	else if(CurrentHealth > 0.0f){
 		CurrentHealth -= damage;
+		
 		CurrentHealth = FMath::Clamp(CurrentHealth - damage,0.0f,MaxHealth);
 		
 	}
@@ -62,9 +63,8 @@ void UHealthComponent::HealHealth(float healHealth)
 
 void UHealthComponent::HealShield(float healShield)
 {
-	if (CurrentShield > 0)
-	{
-		CurrentShield += healShield;
-	}
+	CurrentShield = FMath::Clamp(CurrentShield + healShield, 0.0f, 100.0f);
+	
+	GEngine->AddOnScreenDebugMessage(-1, 0.75f, FColor::Green, FString::Printf(TEXT("CurrentShield: %f"), CurrentShield));
 }
 
