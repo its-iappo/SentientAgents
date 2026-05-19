@@ -9,9 +9,6 @@ UInteractComponent::UInteractComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	
-	SetSphereRadius(InteractionSphereRadius);
-	SetGenerateOverlapEvents(true);
-	
 }
 
 void UInteractComponent::BeginPlay()
@@ -23,6 +20,9 @@ void UInteractComponent::BeginPlay()
 	
 	OnComponentBeginOverlap.AddDynamic(this, &UInteractComponent::SpawnUI);
 	OnComponentEndOverlap.AddDynamic(this, &UInteractComponent::DespawnUI);
+	
+	SetSphereRadius(InteractionSphereRadius);
+	SetGenerateOverlapEvents(true);
 }
 
 void UInteractComponent::SpawnUI(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
