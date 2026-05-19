@@ -6,6 +6,9 @@
 #include "GameFramework/PlayerController.h"
 #include "SentientAgentsPlayerController.generated.h"
 
+struct FInputActionValue;
+class ASentientAgentsCharacter;
+class UInputAction;
 class UInputMappingContext;
 class UUserWidget;
 
@@ -20,33 +23,86 @@ class ASentientAgentsPlayerController : public APlayerController
 	
 protected:
 
-	/** Input Mapping Contexts */
-	UPROPERTY(EditAnywhere, Category ="Input|Input Mappings")
-	TArray<UInputMappingContext*> DefaultMappingContexts;
+	/** Jump Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* JumpAction;
 
-	/** Input Mapping Contexts */
-	UPROPERTY(EditAnywhere, Category="Input|Input Mappings")
-	TArray<UInputMappingContext*> MobileExcludedMappingContexts;
+	/** Move Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* MoveAction;
 
-	/** Mobile controls widget to spawn */
-	UPROPERTY(EditAnywhere, Category="Input|Touch Controls")
-	TSubclassOf<UUserWidget> MobileControlsWidgetClass;
+	/** Look Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* LookAction;
 
-	/** Pointer to the mobile controls widget */
+	/** Mouse Look Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* MouseLookAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* InteractAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* CrouchAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* RunAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* OpenInventoryAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* UseAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* AttackAction;
+	
+	
+	/** ControlledCharacter **/
 	UPROPERTY()
-	TObjectPtr<UUserWidget> MobileControlsWidget;
-
-	/** If true, the player will use UMG touch controls even if not playing on mobile platforms */
-	UPROPERTY(EditAnywhere, Config, Category = "Input|Touch Controls")
-	bool bForceTouchControls = false;
-
+	TObjectPtr<ASentientAgentsCharacter> ControlledCharacter;
+	
+	UPROPERTY(EditAnywhere, Category ="Input|Input Mappings")
+	TObjectPtr<UInputMappingContext> DefaultMappingContext;
+	
 	/** Gameplay initialization */
 	virtual void BeginPlay() override;
 
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
-
-	/** Returns true if the player should use UMG touch controls */
-	bool ShouldUseTouchControls() const;
-
+	
+	virtual void OnPossess(APawn* InPawn)override;
+	
+public:
+	
+	UFUNCTION()
+	void Jump();
+	
+	UFUNCTION()
+	void StopJumping();
+	
+	UFUNCTION()
+	void Look(const FInputActionValue& Value);
+	
+	UFUNCTION()
+	void Move(const FInputActionValue& Value);
+	
+	UFUNCTION()
+	virtual void Interact();
+	
+	UFUNCTION()
+	virtual void Crouch();
+	
+	UFUNCTION()
+	virtual void Run();
+	
+	UFUNCTION()
+	virtual void OpenInventory();
+	
+	UFUNCTION()
+	virtual void Use();
+	
+	UFUNCTION()
+	virtual void Attack();
+	
 };
