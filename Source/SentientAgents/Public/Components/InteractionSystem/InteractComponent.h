@@ -11,6 +11,9 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SENTIENTAGENTS_API UInteractComponent : public USphereComponent
 {
 	GENERATED_BODY()
+	
+	UPROPERTY()
+	bool bIsOverlappingInteractable = false;
 
 public:
 	

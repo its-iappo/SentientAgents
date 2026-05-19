@@ -1,24 +1,25 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Public/Components/InteractComponent.h"
-
-#include "Interfaces/Interactable.h"
+#include "Public/Components/InteractionSystem/InteractComponent.h"
+#include "Interfaces/InteractionSystem/Interactable.h"
 
 
 UInteractComponent::UInteractComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+	
+	SetSphereRadius(InteractionSphereRadius);
+	SetGenerateOverlapEvents(true);
+	
 }
 
 void UInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	SetSphereRadius(InteractionSphereRadius);
 	//SetCollisionResponseToAllChannels(ECR_Ignore);
 	//SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
-	SetGenerateOverlapEvents(true);
 	
 	OnComponentBeginOverlap.AddDynamic(this, &UInteractComponent::SpawnUI);
 	OnComponentEndOverlap.AddDynamic(this, &UInteractComponent::DespawnUI);
@@ -30,9 +31,7 @@ void UInteractComponent::SpawnUI(UPrimitiveComponent* OverlappedComponent, AActo
 	
 	if (OtherActor->Implements<UInteractable>())
 	{
-		
-		
-		
+		bIsOverlappingInteractable = true;	
 	}
 	
 }
@@ -40,5 +39,10 @@ void UInteractComponent::SpawnUI(UPrimitiveComponent* OverlappedComponent, AActo
 void UInteractComponent::DespawnUI(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	//UI despawn logic
+	
+	if (!OtherActor)
+	{
+		bIsOverlappingInteractable = false;
+	}
 }
 
