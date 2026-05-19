@@ -19,12 +19,20 @@ void ASentientAgentsCharacter::BeginPlay()
 		GetCharacterMovement()->AirControl = CharacterStats->AirControl;
 		GetCharacterMovement()->MaxWalkSpeed = CharacterStats->MaxWalkSpeed;
 		GetCharacterMovement()->MinAnalogWalkSpeed = CharacterStats->MinAnalogWalkSpeed;
-		GetCharacterMovement()->CrouchedSpeedMultiplier_DEPRECATED = CharacterStats->CrouchWalkSpeed;
+		GetCharacterMovement()->MaxWalkSpeedCrouched = CharacterStats->CrouchWalkSpeed;
 	}
 }
 
 void ASentientAgentsCharacter::UpdateMovementSpeed()
 {
+	if (bIsRunning)
+	{
+		GetCharacterMovement()->MaxWalkSpeed *= CharacterStats->MaxRunSpeedMultiplier;
+		
+		return;
+	}
+	GetCharacterMovement()->MaxWalkSpeed = CharacterStats->MaxWalkSpeed;
+	
 }
 
 ASentientAgentsCharacter::ASentientAgentsCharacter()

@@ -21,6 +21,9 @@ public:
 	float MinAnalogWalkSpeed = 20.0f;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=" Movement ")
+	float MaxRunSpeedMultiplier = 2.0f; 
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=" Movement ")
 	float CrouchWalkSpeed= 300.0f;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=" Movement ")
